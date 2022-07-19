@@ -36,8 +36,9 @@ public class CloudComputerResource {
     @POST
     public Uni<Response> save(CloudComputer cloudComputer){
         if(cloudComputer==null||cloudComputer.getId()!=null){
-            throw new WebApplicationException("本实体已存在", 422);
+            throw new WebApplicationException("id在请求中设置错误", 422);
         }
+        //这块怎么存不上呀？？？
         return cloudComputerRepository.persist(cloudComputer)
                 .replaceWith(Response.ok(cloudComputer)
                         .status(CREATED)::build);
