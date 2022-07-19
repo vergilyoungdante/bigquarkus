@@ -22,6 +22,8 @@ public class CloudComputer implements Labeled {
     private int networkBandwidth; // in gigabyte per hour
     private int cost; // in euro per month
 
+    private String name;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -75,6 +77,14 @@ public class CloudComputer implements Labeled {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // ************************************************************************

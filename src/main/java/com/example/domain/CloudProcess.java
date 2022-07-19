@@ -2,10 +2,8 @@ package com.example.domain;
 
 import com.example.component.Labeled;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @BelongsProject: bigquarkus
@@ -14,6 +12,8 @@ import javax.persistence.Id;
  * @CreateTime: 2022-07-19  19:06
  * @Description: TODO
  */
+@Entity
+@Cacheable
 public class CloudProcess implements Labeled {
 
     @Id
@@ -33,7 +33,11 @@ public class CloudProcess implements Labeled {
     private int requiredNetworkBandwidth; // in gigabyte per hour
 
     // Planning variables: changes during planning, between score calculations.
+    @Transient
     private CloudComputer computer;
+
+    @NotNull
+    private String name;
 
     public CloudProcess() {
     }
@@ -75,6 +79,14 @@ public class CloudProcess implements Labeled {
 
     public void setComputer(CloudComputer computer) {
         this.computer = computer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // ************************************************************************
