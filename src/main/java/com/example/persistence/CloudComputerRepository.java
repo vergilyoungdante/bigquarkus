@@ -15,4 +15,15 @@ import javax.enterprise.context.ApplicationScoped;
  */
 @ApplicationScoped//这个一定要扫一下，否则找不到它，跟PanacheEntity那个还不一样
 public class CloudComputerRepository implements PanacheRepository<CloudComputer> {
+
+    public CloudComputer findByName(String name){
+        return find("name", name).firstResult();
+    }
+
+
+
+    public void deleteByName(String name){
+        delete("name", name);
+    }
+
 }
