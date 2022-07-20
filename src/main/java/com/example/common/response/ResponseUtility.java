@@ -2,8 +2,7 @@ package com.example.common.response;
 
 import javax.ws.rs.core.Response;
 
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.*;
 
 /**
  * @BelongsProject: bigquarkus
@@ -16,6 +15,10 @@ public class ResponseUtility {
 
     public static Response createdOK(Object object){
         return Response.ok(object).status(CREATED).build();
+    }
+
+    public static Response getOK(Object object){
+        return Response.ok(object).status(OK).build();
     }
 
     public static Response deleted(Boolean flag){

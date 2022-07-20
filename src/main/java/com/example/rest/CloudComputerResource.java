@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 
 
 /**
@@ -46,13 +47,40 @@ public class CloudComputerResource {
     @DELETE
     @Path("{id}")
     @Transactional
-    public Response delete(@PathParam("id")Long id) {
+    public Response delete(@PathParam("id") Long id) {
         if (id == null) {
             throw new WebApplicationException("id为空", 422);
         }
         Boolean flag = cloudComputerRepository.deleteById(id);
 
         return ResponseUtility.deleted(flag);
+    }
+
+    @POST
+    @Transactional
+    public Response change(CloudComputer cloudComputer) {
+        if (cloudComputer == null || cloudComputer.getId() == null) {
+            throw new WebApplicationException("id为空", 422);
+        }
+        CloudComputer change = cloudComputerRepository.findById(cloudComputer.getId());
+        change.setCost(cloudComputer.getCost());
+        change.setCpuPower(cloudComputer.getCpuPower());
+        change.setMemory(cloudComputer.getMemory());
+        change.setName(cloudComputer.getName());
+        change.setNetworkBandwidth(cloudComputer.getNetworkBandwidth());
+
+        return ResponseUtility.getOK(change);
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getSingle(@PathParam("id") Long id) {
+        Optional<CloudComputer> optional = cloudComputerRepository.findByIdOptional(id);
+        if (optional.isPresent()) {
+            return ResponseUtility.getOK(optional.get());
+        }
+
+        throw new WebApplicationException("没有这个电脑", 422);
     }
 
 
