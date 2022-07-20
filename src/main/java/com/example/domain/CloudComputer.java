@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Cacheable
+//@Cacheable
 public class CloudComputer implements Labeled {
 
     private int cpuPower; // in gigahertz

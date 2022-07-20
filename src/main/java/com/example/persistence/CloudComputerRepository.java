@@ -1,7 +1,8 @@
 package com.example.persistence;
 
 import com.example.domain.CloudComputer;
-import io.quarkus.hibernate.reactive.panache.PanacheRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+
 
 import javax.enterprise.context.ApplicationScoped;
 
