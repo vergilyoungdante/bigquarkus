@@ -1,14 +1,18 @@
 package com.example.rest;
 
+import com.example.common.page.MyPage;
 import com.example.common.response.ResponseUtility;
 import com.example.domain.CloudComputer;
 import com.example.persistence.CloudComputerRepository;
+import io.quarkus.panache.common.Page;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -30,6 +34,7 @@ public class CloudComputerResource {
 
     @GET
     @Path("count")
+    @Transactional
     public Long count() {
         return cloudComputerRepository.count();
     }
@@ -74,6 +79,7 @@ public class CloudComputerResource {
 
     @GET
     @Path("{id}")
+    @Transactional
     public Response getSingle(@PathParam("id") Long id) {
         Optional<CloudComputer> optional = cloudComputerRepository.findByIdOptional(id);
         if (optional.isPresent()) {
@@ -83,5 +89,17 @@ public class CloudComputerResource {
         throw new WebApplicationException("没有这个电脑", 422);
     }
 
+    @POST
+    @Path("page")
+    @Transactional
+    public Response getPage(Map<String, Object> parameters){
+        Page page = new Page((int)parameters.get("index"),(int)parameters.get("size"));
 
+        parameters.remove("index");
+        parameters.remove("size");
+
+        MyPage<CloudComputer> result = cloudComputerRepository.findPage(parameters,page);
+
+        return ResponseUtility.getOK(result);
+    }
 }
