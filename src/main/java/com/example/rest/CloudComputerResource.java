@@ -11,8 +11,6 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -30,7 +28,7 @@ import java.util.Optional;
 public class CloudComputerResource {
 
     @Inject
-    private CloudComputerRepository cloudComputerRepository;
+    CloudComputerRepository cloudComputerRepository;
 
     @GET
     @Path("count")
@@ -92,13 +90,9 @@ public class CloudComputerResource {
     @POST
     @Path("page")
     @Transactional
-    public Response getPage(Map<String, Object> parameters){
-        Page page = new Page((int)parameters.get("index"),(int)parameters.get("size"));
+    public Response getPage(@QueryParam("index") Integer index,@QueryParam("size") Integer size,CloudComputer cloudComputer){
 
-        parameters.remove("index");
-        parameters.remove("size");
-
-        MyPage<CloudComputer> result = cloudComputerRepository.findPage(parameters,page);
+        MyPage<CloudComputer> result = cloudComputerRepository.JpaSpecificationPage(cloudComputer,new Page(index,size));
 
         return ResponseUtility.getOK(result);
     }

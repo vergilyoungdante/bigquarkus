@@ -28,7 +28,7 @@ import java.util.Optional;
 public class CloudProcessResource {
 
     @Inject
-    private CloudProcessRepository cloudProcessRepository;
+    CloudProcessRepository cloudProcessRepository;
 
     @GET
     @Path("count")
