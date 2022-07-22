@@ -22,22 +22,22 @@ import java.util.stream.Collectors;
  * @BelongsPackage: com.example.persistence
  * @Author: vergil young
  * @CreateTime: 2022-07-19  19:18
- * @Description: TODO
+ * @Description: jpa api
  */
 @ApplicationScoped//这个一定要扫一下，否则找不到它，跟PanacheEntity那个还不一样，回来我再看看需不需要用singleton
 public class CloudComputerRepository implements PanacheRepository<CloudComputer> {
 
-    public CloudComputer findByName(String name){
+    public CloudComputer findByName(String name) {
         return find("name", name).firstResult();
     }
 
-    public void deleteByName(String name){
+    public void deleteByName(String name) {
         delete("name", name);
     }
 
-    public MyPage<CloudComputer> findPage(Map<String, Object> parameters, Page page){
-        MyPage<CloudComputer> result = new MyPage<>(page.index,page.size,0,null);
-        if ( parameters == null ) {
+    public MyPage<CloudComputer> findPage(Map<String, Object> parameters, Page page) {
+        MyPage<CloudComputer> result = new MyPage<>(page.index, page.size, 0, null);
+        if (parameters == null) {
             int total = listAll().size();
             result.setTotal(total);
             result.setList(findAll().page(page).list());
@@ -45,10 +45,10 @@ public class CloudComputerRepository implements PanacheRepository<CloudComputer>
         }
 
         Map<String, Object> nonNullParams = parameters.entrySet().stream()
-                .filter( entry -> entry.getValue() != null )
-                .collect( Collectors.toMap( Map.Entry::getKey, Map.Entry::getValue ) );
+                .filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        if ( nonNullParams.isEmpty() ) {
+        if (nonNullParams.isEmpty()) {
             int total = listAll().size();
             result.setTotal(total);
             result.setList(findAll().page(page).list());
@@ -56,39 +56,48 @@ public class CloudComputerRepository implements PanacheRepository<CloudComputer>
         }
 
         String query = nonNullParams.entrySet().stream()
-                .map( entry -> entry.getKey() + "=:" + entry.getKey() )
-                .collect( Collectors.joining(" and ") );
+                .map(entry -> entry.getKey() + "=:" + entry.getKey())
+                .collect(Collectors.joining(" and "));
 
-        result.setTotal((int)find(query, nonNullParams).count());
+        result.setTotal((int) find(query, nonNullParams).count());
         result.setList(find(query, nonNullParams).page(page).list());
         return result;
     }
 
-    public MyPage<CloudComputer> JpaSpecificationPage(CloudComputer cloudComputer, Page page){
+    public MyPage<CloudComputer> jpaSpecificationPage(CloudComputer cloudComputer, Page page) {
 
         CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<CloudComputer> query = criteriaBuilder.createQuery(CloudComputer.class);
         Root<CloudComputer> root = query.from(CloudComputer.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(StringUtil.isNotEmpty(cloudComputer.getName())){
-            predicates.add(criteriaBuilder.like(root.get("name"),"%"+cloudComputer.getName()+"%"));
+        if (StringUtil.isNotEmpty(cloudComputer.getName())) {
+            predicates.add(criteriaBuilder.like(root.get("name"), "%" + cloudComputer.getName() + "%"));
         }
-        if(cloudComputer.getId()!=null){
-            predicates.add(criteriaBuilder.equal(root.get("id"),cloudComputer.getId()));
+        if (cloudComputer.getId() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("id"), cloudComputer.getId()));
         }
-        if(cloudComputer.getCpuPower()>0){
-            predicates.add(criteriaBuilder.greaterThan(root.get("cpupower"),cloudComputer.getCpuPower()));
+        if (cloudComputer.getCpuPower() > 0) {
+            predicates.add(criteriaBuilder.greaterThan(root.get("cpupower"), cloudComputer.getCpuPower()));
         }
-        if(cloudComputer.getMemory()>0){
-            predicates.add(criteriaBuilder.greaterThan(root.get("memory"),cloudComputer.getMemory()));
+        if (cloudComputer.getMemory() > 0) {
+            predicates.add(criteriaBuilder.greaterThan(root.get("memory"), cloudComputer.getMemory()));
         }
-        if(cloudComputer.getNetworkBandwidth()>0){
-            predicates.add(criteriaBuilder.greaterThan(root.get("networkbandwidth"),cloudComputer.getNetworkBandwidth()));
+        if (cloudComputer.getNetworkBandwidth() > 0) {
+            predicates.add(criteriaBuilder.greaterThan(root.get("networkbandwidth"), cloudComputer.getNetworkBandwidth()));
         }
         query.where(predicates.toArray(Predicate[]::new));
-        List<CloudComputer> list = getEntityManager().createQuery(query).getResultList();
-        int count = list.size();
-        list = list.stream().skip((page.index-1)* page.size).limit(page.size).collect(Collectors.toList());
-        return new MyPage<>(page.index,page.size,count,list);
+
+        List<CloudComputer> list = getEntityManager().createQuery(query)
+                .setFirstResult(page.size * (page.index - 1))
+                .setMaxResults(page.size)
+                .getResultList();
+
+        //水友代码
+        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+        cq.select(criteriaBuilder.count(cq.from(CloudComputer.class)));
+        cq.where(predicates.toArray(Predicate[]::new));
+        Long count = getEntityManager().createQuery(cq).getSingleResult();
+
+        return new MyPage<>(page.index, page.size, count.intValue(), list);
     }
 }

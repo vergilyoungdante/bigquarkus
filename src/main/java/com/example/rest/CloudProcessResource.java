@@ -92,7 +92,7 @@ public class CloudProcessResource {
     @Transactional
     public Response getPage(@QueryParam("index") Integer index, @QueryParam("size") Integer size, CloudProcess cloudProcess){
 
-        MyPage<CloudProcess> result = cloudProcessRepository.JpaSpecificationPage(cloudProcess,new Page(index,size));
+        MyPage<CloudProcess> result = cloudProcessRepository.jpaSpecificationPage(cloudProcess,new Page(index,size));
 
         return ResponseUtility.getOK(result);
     }

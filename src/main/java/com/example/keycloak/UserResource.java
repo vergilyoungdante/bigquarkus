@@ -31,7 +31,7 @@ public class UserResource {
     @RolesAllowed("niuma_user")
     @GET
     @Path("me")
-    public Map me() {
+    public Map<String, String> me() {
         return Map.of("username", securityIdentity.getPrincipal().getName());
     }
 
@@ -49,7 +49,7 @@ public class UserResource {
     @GET
     @Path("admin")
     @RolesAllowed("niuma_user")
-    public Map name() {
+    public Map<String, String> name() {
         return Map.of("subject", jwt.getSubject(),
                 "preferred_username", jwt.getClaim("preferred_username"));
     }

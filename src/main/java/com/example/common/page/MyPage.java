@@ -7,7 +7,7 @@ import java.util.List;
  * @BelongsPackage: com.example.common.page
  * @Author: vergil young
  * @CreateTime: 2022-07-20  18:32
- * @Description: TODO
+ * @Description: 自定义分页，quarkus自己的分页没有total
  */
 public class MyPage<T> {
     private int page;

@@ -10,7 +10,7 @@ import javax.persistence.*;
  * @BelongsPackage: com.example.domain
  * @Author: vergil young
  * @CreateTime: 2022-07-19  17:36
- * @Description: TODO
+ * @Description: 服务器实例
  */
 
 @Entity
@@ -40,7 +40,7 @@ public class CloudComputer implements Labeled {
     public CloudComputer() {
     }
 
-    public CloudComputer(long id, int cpuPower, int memory, int networkBandwidth, int cost) {
+    public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
         this.cpuPower = cpuPower;
         this.memory = memory;
         this.networkBandwidth = networkBandwidth;

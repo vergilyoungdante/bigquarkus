@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @BelongsPackage: com.example.domain
  * @Author: vergil young
  * @CreateTime: 2022-07-19  19:06
- * @Description: TODO
+ * @Description: 应用实例
  */
 @Entity
 @Cacheable
@@ -28,6 +28,7 @@ public class CloudProcess implements Labeled {
     public void setId(Long id) {
         this.id = id;
     }
+
     private int requiredCpuPower; // in gigahertz
     private int requiredMemory; // in gigabyte RAM
     private int requiredNetworkBandwidth; // in gigabyte per hour
@@ -42,7 +43,7 @@ public class CloudProcess implements Labeled {
     public CloudProcess() {
     }
 
-    public CloudProcess(long id, int requiredCpuPower, int requiredMemory, int requiredNetworkBandwidth) {
+    public CloudProcess(int requiredCpuPower, int requiredMemory, int requiredNetworkBandwidth) {
 
         this.requiredCpuPower = requiredCpuPower;
         this.requiredMemory = requiredMemory;
