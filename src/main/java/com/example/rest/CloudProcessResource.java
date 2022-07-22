@@ -2,6 +2,7 @@ package com.example.rest;
 
 import com.example.common.page.MyPage;
 import com.example.common.response.ResponseUtility;
+import com.example.domain.CloudComputer;
 import com.example.domain.CloudProcess;
 import com.example.persistence.CloudProcessRepository;
 import io.quarkus.panache.common.Page;
@@ -89,13 +90,9 @@ public class CloudProcessResource {
     @POST
     @Path("page")
     @Transactional
-    public Response getPage(Map<String, Object> parameters){
-        Page page = new Page((int)parameters.get("index"),(int)parameters.get("size"));
+    public Response getPage(@QueryParam("index") Integer index, @QueryParam("size") Integer size, CloudProcess cloudProcess){
 
-        parameters.remove("index");
-        parameters.remove("size");
-
-        MyPage<CloudProcess> result = cloudProcessRepository.findPage(parameters,page);
+        MyPage<CloudProcess> result = cloudProcessRepository.JpaSpecificationPage(cloudProcess,new Page(index,size));
 
         return ResponseUtility.getOK(result);
     }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @CreateTime: 2022-07-19  19:18
  * @Description: TODO
  */
-@ApplicationScoped//这个一定要扫一下，否则找不到它，跟PanacheEntity那个还不一样
+@ApplicationScoped//这个一定要扫一下，否则找不到它，跟PanacheEntity那个还不一样，回来我再看看需不需要用singleton
 public class CloudComputerRepository implements PanacheRepository<CloudComputer> {
 
     public CloudComputer findByName(String name){
