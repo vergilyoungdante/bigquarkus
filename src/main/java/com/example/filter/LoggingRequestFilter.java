@@ -16,7 +16,7 @@ import java.io.IOException;
  * @Description: 打印request日志
  */
 @Provider
-public class LoggingFilter implements ContainerRequestFilter {
+public class LoggingRequestFilter implements ContainerRequestFilter {
     Logger requestLogger = LoggerFactory.getLogger("request");
     @Override
     public void filter(ContainerRequestContext crc) throws IOException {

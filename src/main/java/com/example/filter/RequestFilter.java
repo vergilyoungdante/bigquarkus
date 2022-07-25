@@ -28,9 +28,9 @@ public class RequestFilter {
         filters.register(
                 routingContext -> {
                     /**filter自定义**/
-//                    HttpServerRequest request = routingContext.request();
-//                    requestLogger.info("REQUEST: url=>{},httpMethod=>{},ip=>{},httpParams=>{}",
-//                            request.uri(), request.method(), request.remoteAddress(), buildHttpParams(request));
+                    HttpServerRequest request = routingContext.request();
+                    requestLogger.info("REQUEST: url=>{},httpMethod=>{},ip=>{},httpParams=>{}",
+                            request.uri(), request.method(), request.remoteAddress(), buildHttpParams(request));
                     //没这句话会卡死整个filter
                     routingContext.next();
                 },10
