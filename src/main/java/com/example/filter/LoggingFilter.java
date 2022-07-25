@@ -13,7 +13,7 @@ import java.io.IOException;
  * @BelongsPackage: com.example.filter
  * @Author: vergil young
  * @CreateTime: 2022-07-25  20:04
- * @Description: TODO
+ * @Description: 打印request日志
  */
 @Provider
 public class LoggingFilter implements ContainerRequestFilter {

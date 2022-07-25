@@ -4,6 +4,7 @@ import com.example.common.page.MyPage;
 import com.example.common.response.ResponseUtility;
 import com.example.domain.CloudComputer;
 import com.example.domain.CloudProcess;
+import com.example.interceptor.LogEvent;
 import com.example.persistence.CloudProcessRepository;
 import io.quarkus.panache.common.Page;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 @ApplicationScoped
 @Produces("application/json")
 @Consumes("application/json")
+@LogEvent
 public class CloudProcessResource {
 
     @Inject

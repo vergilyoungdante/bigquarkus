@@ -3,6 +3,7 @@ package com.example.rest;
 import com.example.common.page.MyPage;
 import com.example.common.response.ResponseUtility;
 import com.example.domain.CloudComputer;
+import com.example.interceptor.LogEvent;
 import com.example.persistence.CloudComputerRepository;
 import io.quarkus.panache.common.Page;
 
@@ -25,6 +26,7 @@ import java.util.Optional;
 @ApplicationScoped
 @Produces("application/json")
 @Consumes("application/json")
+@LogEvent
 public class CloudComputerResource {
 
     @Inject
