@@ -13,7 +13,13 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-
+/**
+ * @BelongsProject: bigquarkus
+ * @BelongsPackage: com.example.interceptor
+ * @Author: vergil young
+ * @CreateTime: 2022-07-25  21:40
+ * @Description: 这里能打出body里的东西，属实不易
+ */
 @LogEvent
 @Interceptor
 public class LogEventInterceptor {
