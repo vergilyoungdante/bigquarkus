@@ -92,9 +92,11 @@ public class CloudComputerResource {
     @POST
     @Path("page")
     @Transactional
-    public Response getPage(@QueryParam("index") Integer index,@QueryParam("size") Integer size,CloudComputer cloudComputer){
+    public Response getPage(@DefaultValue("1") @QueryParam("index") Integer index
+            , @DefaultValue("10") @QueryParam("size") Integer size
+            , CloudComputer cloudComputer) {
 
-        MyPage<CloudComputer> result = cloudComputerRepository.jpaSpecificationPage(cloudComputer,new Page(index,size));
+        MyPage<CloudComputer> result = cloudComputerRepository.jpaSpecificationPage(cloudComputer, new Page(index, size));
 
         return ResponseUtility.getOK(result);
     }
